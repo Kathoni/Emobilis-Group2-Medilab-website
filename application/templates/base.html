@@ -1,0 +1,14 @@
+{% load static %}
+<title>
+    {% block title %}
+    {% endblock %}
+</title>
+<link rel="stylesheet" href="{% static 'style/bootstrap/css/bootstrap.min.css' %}">
+
+<h3>Content goes here</h3>
+
+<button class="btn btn-success">Test</button>
+{% block content %}
+
+{% endblock %}
+
