@@ -1,0 +1,80 @@
+Index: application/views.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.shortcuts import render\r\n\r\n# Create your views here.\r\n\r\ndef index(request):\r\n    return render(request, 'index.html')\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/application/views.py b/application/views.py
+--- a/application/views.py	(revision 50cf2840a49fe23df329eb4a593da26a52af0609)
++++ b/application/views.py	(date 1731771930944)
+@@ -1,6 +1,17 @@
+ from django.shortcuts import render
+ 
++from application.forms import AppointmentForm
++
++
+ # Create your views here.
+ 
+ def index(request):
+-    return render(request, 'index.html')
++    if request.method == 'POST':
++        form = AppointmentForm(request.POST, request.FILES)
++        if form.is_valid():
++            form.save()
++            return redirect('index')
++    else:
++        form = AppointmentForm()
++    return render(request, 'index.html', {'form': form})
++
+Index: application/forms.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/application/forms.py b/application/forms.py
+new file mode 100644
+--- /dev/null	(date 1731771766837)
++++ b/application/forms.py	(date 1731771766837)
+@@ -0,0 +1,16 @@
++from django import forms
++from application.models import Appointment
++
++class AppointmentForm(forms.ModelForm):
++    class Meta:
++        model = Appointment
++        fields = '__all__'
++        # fields = ['name', 'gender', 'date', 'time', 'email', 'message']
++        widgets = {
++            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your name'}),
++            'gender': forms.Select(attrs={'class': 'form-control'}),
++            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
++            'time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
++            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'}),
++            'message': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Write your message here'}),
++        }
+Index: application/templates/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'base.html' %}\r\n\r\n{% block title %}\r\nindex\r\n{% endblock %}\r\n\r\n\r\n\r\n{% block content %}\r\n\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/application/templates/index.html b/application/templates/index.html
+--- a/application/templates/index.html	(revision 50cf2840a49fe23df329eb4a593da26a52af0609)
++++ b/application/templates/index.html	(date 1731771617925)
+@@ -7,5 +7,13 @@
+ 
+ 
+ {% block content %}
++<form action="" method="POST" enctype="multipart/form-data">
++    <h2>Appointment Page</h2>
++    {% csrf_token %}
++
++    {{ form.as_p }}
++
++    <button type="submit" class="btn btn-success" style="width: 100%; margin-bottom: 10px;">Book Appointment</button>
++</form>
+ 
+ {% endblock %}
+\ No newline at end of file

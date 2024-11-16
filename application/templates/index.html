@@ -7,5 +7,12 @@ index
 
 
 {% block content %}
-
+  <div class="container mt-5">
+        <h2 class="text-center">Appointment Page</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success" style="width: 100%; margin-bottom: 10px;">Book Appointment</button>
+        </form>
+    </div>
 {% endblock %}

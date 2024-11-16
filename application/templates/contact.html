@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Contact
+{% endblock %}
+
+
+
+{% block content %}
+<div class="table">
+                    <table class="table table-dark" style="border: 2px dotted green;">
+                        <thead class="thead-dark">
+                        <tr>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                            <th></th>
+                            <th></th>
+                         </tr>
+                        </thead>
+                        <tbody>
+                        {% for appointment in data %}
+                        <tr>
+
+                            <td>{{ appointment.name }}</td>
+                            <td>{{ appointment.gender }}</td>
+                            <td>{{ appointment.date }}</td>
+                            <td>{{ appointment.time }}</td>
+                            <td>{{ appointment.email }}</td>
+                            <td>{{ appointment.message }}</td>
+                            <td><a href="{% url 'edit' appointment.id  %}" class="btn btn-success " type="button">EDIT APPOINTMENT</a></td>
+                            <td><a href="{% url 'delete' appointment.id %}" class="btn btn-danger" type="button" onclick="return confirm('Are your sure you' +
+                             'want to delete the appointment?')">DELETE APPOINTMENT</a> </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+{% endblock %}
