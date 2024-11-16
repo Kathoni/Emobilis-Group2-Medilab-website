@@ -1,4 +1,6 @@
 # Patient appointment 
+#Developers *Joel Mwangi
+            *Slyvia Gathoni 
 # First Collaboration project
 * This is a Django-based web application 
 that allows users to manage doctor appointments 
